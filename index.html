@@ -7,7 +7,6 @@
     <!-- CSS Links -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://assets.mridun.co/config.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous">
 
     <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="57x57" href="https://assets.mridun.co/favicon/apple-icon-57x57.png">
@@ -33,23 +32,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- JS Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script type="text/javascript" src="main.js"></script>
-    <script type="text/javascript" src="https://tally.so/widgets/embed.js" async="async"></script>
-
-    <!-- style.css -->
-    <style>
-        .details button:nth-child(1) img:hover {
-            box-shadow: 0.3rem 0.3rem 0.1rem #0079C1;
-        }
-
-        .details button:nth-child(2) img:hover {
-            box-shadow: 0.3rem 0.3rem 0.1rem rgb(043, 139, 075);
-        }
-
-        .details button:nth-child(3) img:hover {
-            box-shadow: 0.3rem 0.3rem 0.1rem #656D76;
-        }
-    </style>
+    <script type="text/javascript" src="https://assets.mridun.co/console.js"></script>
+    <script type="text/javascript" src="https://assets.mridun.co/ticker.js"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=BAAVEMrAS3CyaX0T30nBEPyZI9e2vvsObcvsn7x6fgg_bSSCnPqiG22ZIDc8t-I8JBfycdMHPikrKfqWZI&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
+    <script>
+        paypal.HostedButtons({
+            hostedButtonId: "RCVSN2ZQKF958",
+        }).render("#paypal-container-RCVSN2ZQKF958")
+    </script>
 </head>
 
 <body>
@@ -68,12 +60,62 @@
             <div class="content">
                 <h2 class="title">Pay "<span class="highlight">Mridun Gupta</span>"</h2>
                 <div class="details">
-                    <a href="https://paypal.me/MridunGupta?country.x=IN&locale.x=en_GB" target="_blank"><button type="button" ><img src="https://www.paypalobjects.com/webstatic/en_AU/i/buttons/btn_paywith_primary_m.png" alt="Pay with PayPal"></img>
-                    <a href="#tally-open=mVzONE&tally-layout=modal&tally-align-left=1&tally-hide-title=1&tally-auto-close=5000"><button type="button"><img src="https://upload.wikimedia.org/wikipedia/en/6/65/BHIM_SVG_Logo.svg" alt="Pay with BHIM UPI"></img></button></a>
-                    <a href="https://github.com/sponsors/mridun-gupta" target="_blank"><button type="button" ><img src="https://github.githubassets.com/assets/GitHub-Logo-ee398b662d42.png" alt="Pay with GitHub Sponsors"></img></button></a>
+                    <a onclick="displayUPI()">
+                        <h3>BHIM UPI</h3>
+                    </a>
+                    <a onclick="displayPayPal()">
+                        <h3>PayPal</h3>
+                    </a>
+                    <a onclick="displayGitHub()">
+                        <h3>GitHub Sponsor</h3>
+                    </a>
                 </div>
-                <p class="note">Trademarks of the respective logos are reserved by their respective owners.</p>
             </div>
+        </div>
+    </div>
+    <div id="UPI" class="info-container overlay">
+        <div class="info">
+            <div class="UPIcontent">
+                <div class="amountUPI">
+                    <label>Specify Amount</label>
+                    <input type="text" id="amountUPI" value="" data-type="currency" placeholder="₹ 0.00">
+                </div>
+                <button onclick="displayUPIQR()">Continue to pay</button>
+            </div>
+            <div id="UPIQR">
+                <img onclick="dismissUPIQR()" src="https://qrcode.tec-it.com/API/QRCode?data=https%3a%2f%2fwww.paypal.com%2fncp%2fpayment%2fRCVSN2ZQKF95%2f&errorcorrection=H&backcolor=%23ffffff&dpi=600&size=Large">
+                <p class="center">Click on the QR code to hide it.</p>
+            </div>
+            <p class="center">Click <span class="highlight" onclick="dismissUPI()">here</span> to dismiss this message.</p>
+        </div>
+    </div>
+    <div id="PayPal" class="info-container overlay">
+        <div class="info">
+            <div>
+                <a href="https://www.paypal.com/ncp/payment/RCVSN2ZQKF958" target="_blank"><button type="button">Redirect to external page</button></a>
+                <a onclick="displayPayPalQR()"><button type="button">Continue on another device</button></a>
+                <a onclick="displayPayPalButton()"><button type="button">Continue on this page</button></a>
+            </div>
+            <div id="PayPalQR">
+                <img onclick="dismissPayPalQR()" src="https://qrcode.tec-it.com/API/QRCode?data=https%3a%2f%2fwww.paypal.com%2fncp%2fpayment%2fRCVSN2ZQKF95%2f&errorcorrection=H&backcolor=%23ffffff&dpi=600&size=Large">
+                <p class="center">Click on the QR code to hide it.</p>
+            </div>
+            <p class="center">Click <span class="highlight" onclick="dismissPayPal()">here</span> to dismiss this message.</p>
+        </div>
+    </div>
+    <div id="PayPalButton" class="info-container overlay">
+        <div class="info">
+            <div id="paypal-container-RCVSN2ZQKF958"></div>
+            <p class="center">Click <span class="highlight" onclick="dismissPayPalButton()">here</span> to cancel this transaction.</p>
+        </div>
+    </div>
+    <div id="GitHub" class="info-container overlay" onclick="dismissGitHub()">
+        <div class="info">
+            <div>
+                <a href="https://github.com/sponsors/mridun-gupta"><button type="button">&#x2661; | Sponsor mridun-gupta</button></a>
+                <a href="https://github.com/sponsors/Mridun-Gupta-Codes"><button type="button">&#x2661; | Sponsor mridun-gupta-codes</button></a>
+            </div>
+            <p class="center">Click anywhere on the screen to dismiss this message.</p>
         </div>
     </div>
     <footer>

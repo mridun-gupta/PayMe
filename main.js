@@ -1,47 +1,141 @@
-/* console.log Markings */
-console.log("#     #                                          #####\n##   ##  #####   #  #####   #    #  #    #      #     #  #    #  #####   #####    ##\n# # # #  #    #  #  #    #  #    #  ##   #      #        #    #  #    #    #     #  #\n#  #  #  #    #  #  #    #  #    #  # #  #      #  ####  #    #  #    #    #    #    #\n#     #  #####   #  #    #  #    #  #  # #      #     #  #    #  #####     #    ######\n#     #  #   #   #  #    #  #    #  #   ##      #     #  #    #  #         #    #    #\n#     #  #    #  #  #####    ####   #    #       #####    ####   #         #    #    #");
+/* displayUPI Logic */
+function displayUPI() {
+    document.getElementById("UPI").style.display = "block";
+}
 
-/* Fetch specialEvents */
-document.addEventListener("DOMContentLoaded", function () {
-    const eventsDisplay = document.getElementById("special-events");
-    const eventsList = [
-        "on the smooth landing of LVM3-M4/Chandrayaan-3",
-        "on the smooth positioning of PSLV-C57/Aditya L1",
-        "for the fastest 5G rollout globally",
-        "on the inauguration of the world's largest meditation center - 'Swarved Mahamandir'",
-        "on the inauguration of the world's longest river cruise - 'MG Ganga Vilas'",
-        "for being the world's fastest-growing major economy",
-        "for being at the top in digital payments globally",
-        "on the inauguration of the world's largest office building - 'Surat Diamond Bourse'"
-    ];
+/* dismissUPI Logic */
+function dismissUPI() {
+    document.getElementById("UPI").style.display = "none";
+}
 
-    let eventIndex = 0;
+/* displayUPIQR Logic */
+function displayUPIQR() {
+    const amountInput = document.getElementById("amountUPI");
+    formatCurrency($(amountInput));
+    const amountValue = amountInput.value.trim();
+    const numericAmount = amountValue.replace(/[^\d.-]/g, '');
 
-    function updateEvent() {
-        eventsDisplay.textContent = eventsList[eventIndex];
-        eventIndex = (eventIndex + 1) % eventsList.length;
+    if (numericAmount === "" || isNaN(parseFloat(numericAmount))) {
+        alert("Please specify a valid amount.");
+        return;
     }
 
-    updateEvent();
+    const upiUrls = [
+        "upi://pay?pa=42452327724@SBIN0001072.ifsc.npci&am={}&pn=Mridun%20Gupta&cu=INR",
+        "upi://pay?pa=mridungupta@sbi&am={}&pn=Mridun%20Gupta&cu=INR"
+    ];
+    const selectedUrl = upiUrls[Math.floor(Math.random() * upiUrls.length)];
+    const upiUrlWithAmount = selectedUrl.replace("{}", numericAmount);
 
-    setInterval(updateEvent, 25000);
+    document.querySelector("#UPIQR img").src = "https://qrcode.tec-it.com/API/QRCode?data=" + encodeURIComponent(upiUrlWithAmount);
+    document.getElementById("UPIQR").style.display = "flex";
+}
+
+/* dismissUPIQR Logic */
+function dismissUPIQR() {
+    document.getElementById("UPIQR").style.display = "none";
+}
+
+/* displayPayPal Logic */
+function displayPayPal() {
+    document.getElementById("PayPal").style.display = "block";
+}
+
+/* dismissPayPal Logic */
+function dismissPayPal() {
+    document.getElementById("PayPal").style.display = "none";
+}
+
+/* displayPayPalQR Logic */
+function displayPayPalQR() {
+    document.getElementById("PayPalQR").style.display = "flex";
+}
+
+/* dismissPayPalQR Logic */
+function dismissPayPalQR() {
+    document.getElementById("PayPalQR").style.display = "none";
+}
+
+/* displayPayPalButton Logic */
+function displayPayPalButton() {
+    document.getElementById("PayPal").style.display = "none";
+    document.getElementById("PayPalButton").style.display = "block";
+}
+
+/* dismissPayPalButton Logic */
+function dismissPayPalButton() {
+    document.getElementById("PayPalButton").style.display = "none";
+}
+
+/* displayGitHub Logic */
+function displayGitHub() {
+    document.getElementById("GitHub").style.display = "block";
+}
+
+/* dismissGitHub Logic */
+function dismissGitHub() {
+    document.getElementById("GitHub").style.display = "none";
+}
+
+/* input[data-type="currency"] Logic */
+$(document).ready(function () {
+    $("input[data-type='currency']").on({
+        keyup: function () {
+            formatCurrency($(this));
+        },
+        blur: function () {
+            formatCurrency($(this), "blur");
+        }
+    });
 });
 
-/* redirectWeb Logic */
-function redirectWeb() {
-    var currentDomain = window.location.hostname;
+/* formatNumber Logic */
+function formatNumber(n) {
+    return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
-    if (currentDomain === "tip.mridungupta.tech") {
-        window.location.href = "https://www.mridungupta.tech";
-    } else if (currentDomain === "tip.mridungupta.me") {
-        window.location.href = "https://www.mridungupta.me";
-    } else if (currentDomain === "tip.mridungupta.eu.org") {
-        window.location.href = "https://www.mridungupta.eu.org";
-    } else if (currentDomain === "tip.mridungupta.live") {
-        window.location.href = "https://www.mridungupta.live";
-    } else if (currentDomain === "tip.mridungupta.co") {
-        window.location.href = "https://www.mridungupta.co";
-    } else {
-        console.log("Sorry! This isn't the real website run by 'Mridun Gupta'. Double check the official website for authenticity.");
+/* formatCurrency Logic */
+function formatCurrency(input, blur) {
+    var input_val = input.val();
+
+    if (input_val === "") {
+        return;
     }
-};
+
+    var original_len = input_val.length;
+
+    var caret_pos = input.prop("selectionStart");
+
+    if (input_val.indexOf(".") >= 0) {
+        var decimal_pos = input_val.indexOf(".");
+
+        var left_side = input_val.substring(0, decimal_pos);
+        var right_side = input_val.substring(decimal_pos);
+
+        left_side = formatNumber(left_side);
+
+        right_side = right_side.replace(/\D/g, "");
+
+        if (blur === "blur") {
+            right_side += "00";
+        }
+
+        right_side = right_side.substring(0, 2);
+
+        input_val = "₹ " + left_side + "." + right_side;
+    } else {
+        input_val = formatNumber(input_val);
+        input_val = "₹ " + input_val;
+
+        if (blur === "blur") {
+            input_val += ".00";
+        }
+    }
+
+    input.val(input_val);
+
+    var updated_len = input_val.length;
+    caret_pos = updated_len - original_len + caret_pos;
+
+    input[0].setSelectionRange(caret_pos, caret_pos);
+}

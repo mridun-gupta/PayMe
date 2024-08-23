@@ -59,34 +59,29 @@
 }
 
 .details {
-    display: grid;
-    justify-items: start;
+    display: flex;
     margin-bottom: 1.6rem;
-}
-
-.details button {
-    background: transparent;
-    margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
-    padding: 0.5rem;
-    cursor: pointer;
-}
-
-.details button img {
-    background: #FFFFFF;
-    border-radius: 0.5rem;
-    width: 16.8rem;
-    padding: 0.25rem;
 }
 
 .details a {
     text-decoration: none;
     cursor: pointer;
-    color: inherit;
+    padding: 1rem;
 }
 
-.details image {
-    border-radius: 0.5rem;
+.details a:hover {
+    animation: highlight 1s 1 forwards;
+}
+
+.details a h3 {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-radius: 1rem;
+    padding: 2rem;
+    cursor: pointer;
+    font-weight: bold;
+    color: #000000;
+    background: #FFFFFF;
 }
 
 .highlight {
@@ -94,9 +89,133 @@
     font-weight: bold;
 }
 
-.note {
-    font-size: 1.25rem;
+.overlay {
+    position: fixed;
+    cursor: default;
+    background: #000000;
+    overflow: hidden;
+}
+
+.info-container {
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+}
+
+.info {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 2.5rem;
     color: #FFFFFF;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+
+.info-container button {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-radius: 1rem;
+    padding: 2rem;
+    cursor: pointer;
+    font-weight: bold;
+    color: #000000;
+    background: #FFFFFF;
+}
+
+.info-container button:hover {
+    animation: highlight 1s 1 forwards;
+}
+
+.info-container p:nth-child(2),
+.info-container p:nth-child(3) {
+    font-size: 1.5rem;
+    font-weight: bold;
+    animation: blink 2s infinite;
+    text-align: center;
+}
+
+.UPIcontent,
+.amountUPI {
+    display: flex;
+}
+
+.UPIcontent {
+    justify-content: center;
+    align-items: center;
+}
+
+.amountUPI {
+    flex-direction: column;
+}
+
+.UPIcontent input {
+    margin-top: 1rem;
+    color: #000000;
+    width: fit-content;
+    padding: 0.5rem;
+}
+
+.UPIcontent button {
+    margin-left: 2rem;
+    border-radius: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    color: #000000;
+    background: #FFFFFF;
+}
+
+#UPIQR,
+#PayPalQR {
+    display: none;
+    flex-direction: column;
+    border: solid 0.25rem #AD88F2;
+    padding: 1rem;
+    margin: 0rem;
+    margin-top: 1rem;
+}
+
+#UPIQR img,
+#PayPalQR img {
+    width: 50%;
+    height: 50%;
+    padding: 5rem;
+    border-radius: 1rem;
+    background: #FFFFFF;
+}
+
+#UPIQR p,
+#PayPalQR p {
+    margin-bottom: 0rem;
+    padding: 0rem;
+}
+
+#paypal-container-RCVSN2ZQKF958 p {
+    color: #AD88F2;
+    font-size: 2.5rem;
+    animation: blink 2s infinite;
+}
+
+.amountUPI label,
+#paypal-container-RCVSN2ZQKF958 label {
+    color: #AD88F2;
+    font-weight: bold;
+}
+
+#paypal-container-RCVSN2ZQKF958 input {
+    color: #000000;
+    width: fit-content;
+}
+
+.UPIcontent input:focus,
+#paypal-container-RCVSN2ZQKF958 input:focus {
+    animation: highlight 1s 1 forwards;
 }
 
 /* Scrollbar Stylings */
@@ -110,7 +229,7 @@
 
 ::-webkit-scrollbar-thumb {
     background: #FFFFFF;
-    border-radius: 5px
+    border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -133,7 +252,6 @@
 
 html {
     overflow-x: hidden;
-
 }
 
 body {
@@ -182,6 +300,7 @@ a:hover {
 
 /* @media Queries */
 @media (min-width: 768px) {
+
     /* class-based and id-based Stylings */
     .wrapper {
         height: 100vh;
@@ -202,34 +321,51 @@ a:hover {
         justify-content: center;
         padding-top: 0;
     }
-
-    /* General Stylings */
-    html {
-        overflow-y: hidden;
-    }
 }
 
 @media (max-width: 768px) {
-    /* class-based and id-based Stylings */
-    .details button {
-        margin-top: 1rem !important;
-        margin-left: 0rem !important;
-        margin-bottom: 1rem !important;
-        margin-right: 0rem !important;
-    }
 
-    .note {
-        font-size: 1.5rem;
+    /* class-based and id-based Stylings */
+    .info {
+        font-size: 2rem;
     }
 }
 
 /* @keyframe Queries */
 @keyframes scroll {
-    from {
+    0% {
         transform: translate(100%);
     }
 
-    to {
+    100% {
         transform: translate(-100%);
+    }
+}
+
+@keyframes blink {
+    0% {
+        opacity: 100%;
+    }
+
+    50% {
+        opacity: 25%;
+    }
+
+    100% {
+        opacity: 100%;
+    }
+}
+
+@keyframes highlight {
+    0% {
+        filter: drop-shadow(0rem 0rem 0rem #AD88F2);
+    }
+
+    25% {
+        filter: drop-shadow(0rem 0rem 0.25rem #AD88F2);
+    }
+
+    100% {
+        filter: drop-shadow(0rem 0rem 0.5rem #AD88F2);
     }
 }
