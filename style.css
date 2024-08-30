@@ -300,7 +300,6 @@ a:hover {
 
 /* @media Queries */
 @media (min-width: 768px) {
-
     /* class-based and id-based Stylings */
     .wrapper {
         height: 100vh;
@@ -324,7 +323,6 @@ a:hover {
 }
 
 @media (max-width: 768px) {
-
     /* class-based and id-based Stylings */
     .info {
         font-size: 2rem;
